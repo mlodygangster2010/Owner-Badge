@@ -1,0 +1,26 @@
+local BadgeService = game:GetService("BadgeService")
+local DeveloperIDs = {
+	121594066 -- Change this ID to to your Roblox ID
+}
+
+local Badge = 4083721164737126 -- Change this to your badge ID
+local function hasBadge(playerid,id)
+	local success, hasBadge = pcall(function()
+		return BadgeService:UserHasBadgeAsync(playerid, id)
+	end)
+	return hasBadge
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+	for i = 1, #DeveloperIDs do
+		if player.UserId == DeveloperIDs[i] then
+			for i, p in pairs(game.Players:GetChildren()) do
+				local hadBadge = hasBadge(p.UserId, Badge)
+				if not hadBadge then
+					BadgeService:AwardBadge(p.UserId, Badge)
+				end
+				wait()
+			end
+		end
+	end
+end) 
